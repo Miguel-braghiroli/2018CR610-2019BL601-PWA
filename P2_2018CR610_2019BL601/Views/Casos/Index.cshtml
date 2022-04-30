@@ -1,0 +1,104 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model IEnumerable<Casos>
+@{
+}
+<main class="container">
+    <div class="text-center">
+        <h1>Registro de covid</h1>
+
+        <p>El siguiente es para llevar el registro de casos reportados de </br>Covid por departamento y genero.</p>
+    </div>
+
+    <h3 class="my-5">Reportar casos</h3>
+
+    <form asp-action="Guardar" asp-controller="Casos" method="post">
+        <div class="row">
+           <div class="col-md-12 col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">Departamento</label>
+                    <select class="form-select w-100" name="departamento_id" required>
+                        <option selected disabled>Selecciona un departamento</option>
+                        
+                        @foreach (var item in (IEnumerable<SelectListItem>)ViewBag.comboDepartamentos)
+                       {
+                           <option value="@item.Value">@item.Text</option>
+                       }
+                    </select>
+                </div>
+           </div>
+
+           <div class="col-md-12 col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">Genero</label>
+                    <select id="departamento" class="form-select w-100" name="genero_id" required>
+                        <option selected disabled>Selecciona un genero</option>
+                        
+                        @foreach (var item in (IEnumerable<SelectListItem>)ViewBag.comboGeneros)
+                       {
+                           <option value="@item.Value">@item.Text</option>
+                       }
+                    </select>
+                </div>
+           </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 col-lg-4">
+                <div class="mb-3">
+                    @Html.Label("Casos Confirmados ")
+                    @Html.TextBox("confirmados", "0", new { @min = "0", @type = "number", @class = "form-control"})
+                </div>
+            </div>
+
+            <div class="col-md-12 col-lg-4">
+                <div class="mb-3">
+                    @Html.Label("Numero de recuperados ")
+                    @Html.TextBox("recuperados", "0", new { @min = "0", @type = "number", @class = "form-control"})
+                </div>
+            </div>
+
+            <div class="col-md-12 col-lg-4">
+                <div class="mb-3">
+                    @Html.Label("Numero de fallecidos ")
+                    @Html.TextBox("fallecidos", "0", new { @min = "0", @type = "number", @class = "form-control"})
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-success btn-block my-3" type="submit">Guardar registro</button>
+
+        <hr />
+    </form>
+
+
+    <div class="card shadow border-0 rounded">
+        <div class="card-body">
+            <h5 class="card-title">Casos reportados</h5>
+            <table class="table table-striped table-borderless">
+                <thead class="table-ligh">
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.departamento_id)</th>
+                        <th>@Html.DisplayNameFor(model => model.genero_id)</th>
+                        <th>@Html.DisplayNameFor(model => model.confirmados)</th>
+                        <th>@Html.DisplayNameFor(model => model.recuperados)</th>
+                        <th>@Html.DisplayNameFor(model => model.fallecidos)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                   {
+                       <tr>
+                            <th>@Html.DisplayFor(modelItem => item.departamento)</th>
+                            <th>@Html.DisplayFor(modelItem => item.genero)</th>
+                            <td>@item.confirmados</td>
+                            <td>@item.recuperados</td>
+                            <td>@item.fallecidos</td>
+                        </tr>
+                   }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
